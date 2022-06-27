@@ -1,0 +1,172 @@
+1)create 1st react app liftingstate(senderreceiver)
+npx create-react-app foldername
+npm uninstall react reactdom
+npm install react@17 react-dom@17
+npm run start
+
+2)create 2nd react app propsdrilling
+npx create-react-app foldername
+npm uninstall react reactdom
+npm install react@17 react-dom@17
+npm run start
+
+3)create 3rd react app contexttextprovider
+npx create-react-app foldername
+npm uninstall react reactdom
+npm install react@17 react-dom@17
+npm run start
+
+4)create 3rd react app contexttextproviderIndustrystandard
+npx create-react-app foldername
+npm uninstall react reactdom
+npm install react@17 react-dom@17
+npm run start
+
+5)4)create 3rd react app reducerhooks
+npx create-react-app foldername
+npm uninstall react reactdom
+npm install react@17 react-dom@17
+npm run start
+
+---------------------------------------------------------------------
+note:to install redux
+npm install redux-thunk
+------------------------------------------------------------------------
+
+reducer-hook/Index.jsx
+3:21
+// 1. IMPORT REACT
+import React from "react";
+// 2. IMPORT REACTDOM
+import ReactDOM from "react-dom";
+// 3. ADDITIONAL IMPORTS
+import Parent from "./components/Parent";
+// 4. RENDER COMPONENT TO THE <SCREEN></SCREEN>
+ReactDOM.render(<Parent />, document.querySelector("#root"));
+3:22
+Parent.jsx
+3:22
+// 1. IMPORT REACT
+import React, { useState, useReducer } from "react";
+// 2. ADDITIONAL IMPORTS
+import Child from "./Child";
+import StateContext from "./../contexts/StateContext";
+// 3. CREATE COMPONENT
+const Parent = () => {
+  // Let's create our reducer
+  const reducer = (state, action) => {
+    // Let's create our action
+    const { type, payload } = action;
+    // Let's check for our type
+    switch (type) {
+      case "ADD":
+        return state + 1;
+      case "SUBTRACT":
+        return state - 1;
+      default:
+        return state;
+    }
+  };
+  // PROVIDE AND INITIAL STATE TO OUR STORE
+  const initialState = 0;
+  // Let's create our state and our dispatch
+  const [state, dispatch] = useReducer(reducer, initialState);
+  // Lets create a state
+  //   const [state, setState] = useState(0);
+  return (
+    <div>
+      <StateContext.Provider value={{ state, dispatch }}>
+        <Child />
+      </StateContext.Provider>
+    </div>
+  );
+};
+// 4. EXPORT COMPONENT
+export default Parent;
+3:24
+StateContext.jsx
+3:24
+// 1. IMPORT CREATE CONTEXT
+import { createContext } from "react";
+// 2. CREATE YOUR CONTEXT OBJECT
+const context = createContext(null);
+// 3. EXPORT YOUR CONTEXT OBJECT
+export default context;
+3:25
+Child.jsx
+3:25
+// 1. IMPORT REACT
+import React from "react";
+// 2. ADDITIONAL IMPORTS
+import GrandChild from "./GrandChild";
+// 3. CREATE COMPONENT
+const Child = () => {
+  return (
+    <div>
+      <GrandChild />
+    </div>
+  );
+};
+// 4. EXPORT COMPONENT
+export default Child;
+3:26
+GrandChild.jsx
+3:26
+// 1. IMPORT REACT
+import React, { useContext } from "react";
+// 2. ADDITIONAL IMPORTS
+import StateContext from "./../contexts/StateContext";
+// 3. CREATE COMPONENT
+const GrandChild = () => {
+  const ctx = useContext(StateContext);
+  console.log(ctx);
+  // Create a function responsible for dispatching our addition action
+  const dispatchAdditionAction = (obj) => {
+    return ctx.dispatch(obj);
+  };
+  // Create a function responsible for dispatching our subtraction action
+  const dispatchSubtractionAction = (obj) => {
+    return ctx.dispatch(obj);
+  };
+  return (
+    <div>
+      <h1>{ctx.state}</h1>
+      <button
+        onClick={() => {
+          return dispatchAdditionAction({ type: "ADD", payload: null });
+        }}
+      >
+        Add
+      </button>
+      <button
+        onClick={() => {
+          return dispatchSubtractionAction({ type: "SUBTRACT", payload: null });
+        }}
+      >
+        Subtract
+      </button>
+    </div>
+  );
+};
+// 4. EXPORT COMPONENT
+export default GrandChild;
+3:30
+StateContext.jsx
+3:30
+// 1. IMPORT CREATE CONTEXT
+import { createContext } from "react";
+// 2. CREATE YOUR CONTEXT OBJECT
+const context = createContext(null);
+// 3. EXPORT YOUR CONTEXT OBJECT
+export default context;
+3:33
+Tree: src/components/Child.jsx, GrandChild.jsx, Parent.jsx
+3:33
+Tree 2: src/contexts/StateContext.jsx (edited) 
+
+
+
+
+
+
+
